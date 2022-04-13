@@ -403,6 +403,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: eb7f704e49291384d8fdb74b60167168,
         type: 3}
+    - target: {fileID: 21263244, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
+      propertyPath: m_Color.b
+      value: 0.32395867
+      objectReference: {fileID: 0}
+    - target: {fileID: 21263244, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
+      propertyPath: m_Color.g
+      value: 0.32395867
+      objectReference: {fileID: 0}
+    - target: {fileID: 21263244, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
+      propertyPath: m_Color.r
+      value: 0.9433962
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
 --- !u!1 &676862970 stripped
@@ -425,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tailPrefab: {fileID: 101184, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
   rayLength: 4
+  mm: 0
 --- !u!1 &682737737
 GameObject:
   m_ObjectHideFlags: 0
