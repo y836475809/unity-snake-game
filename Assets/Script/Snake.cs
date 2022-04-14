@@ -78,7 +78,7 @@ public class Snake : MonoBehaviour {
 				var n0x = b_p.x - Mathf.Cos(rad) * 2.5f;
 				var n0y = b_p.y - Mathf.Sin(rad) * 2.5f;
 				tail[0].position = new Vector3(n0x, n0y, 0);
-				tail[0].rotation = Quaternion.Euler(0, 0, -za);
+				tail[0].rotation = Quaternion.Euler(0, 0, -(90f - za));
 
                 for (int i = 1; i < tail.Count; i++) {
 					var b_p2 = tail[i - 1].position;
@@ -91,7 +91,7 @@ public class Snake : MonoBehaviour {
 					var n0x2 = b_p2.x - Mathf.Cos(rad2) * 2.5f;
 					var n0y2 = b_p2.y - Mathf.Sin(rad2) * 2.5f;
 					tail[i].position = new Vector3(n0x2, n0y2, 0);
-					tail[i].rotation = Quaternion.Euler(0, 0, -za2);
+					tail[i].rotation = Quaternion.Euler(0, 0, -(90f - za2));
 				}
             }
 		} else {
@@ -113,7 +113,7 @@ public class Snake : MonoBehaviour {
 	}
 
 	float getAngle(float x, float y) {
-		float rad = Mathf.Atan2(x, y);
+		float rad = Mathf.Atan2(y, x);
 		float degree = rad * Mathf.Rad2Deg;
 
 		if (degree < 0) {
