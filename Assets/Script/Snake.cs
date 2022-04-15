@@ -14,12 +14,10 @@ public class Snake : MonoBehaviour {
 	// Tail Prefab
 	public GameObject tailPrefab;
 
-	// Current Movement Direction
-	// (by default it moves to the right)
-	Vector2 dir = Vector2.right;
-
 	// Keep Track of Tail
 	List<Transform> tail = new List<Transform>();
+
+	float speed = 10;
 
 	int raysCount = 9;
 	public float rayLength = 4;
@@ -52,23 +50,21 @@ public class Snake : MonoBehaviour {
 			return;
 		}
 
-		var rot = 0f;
+		var rot_dir = 0;
 		// Move in a new Direction?
 		if (Input.GetKey(KeyCode.RightArrow)) {
-			dir = Vector2.right;
-			rot = -0.3f;
-		} else if (Input.GetKey(KeyCode.DownArrow)) {
-			dir = -Vector2.up;    // '-up' means 'down'
+			rot_dir = -1;
 		} else if (Input.GetKey(KeyCode.LeftArrow)) {
-			dir = -Vector2.right; // '-right' means 'left'
-			rot = 0.3f;
-		} else if (Input.GetKey(KeyCode.UpArrow)) {
-			dir = Vector2.up;
+			rot_dir = 1;
 		}
-		float speed = 10;
-		transform.Rotate(0, 0, rot*5);
-		Vector3 velocity = transform.rotation * new Vector3(0, 1, 0);
-		transform.position += velocity* speed * Time.deltaTime;
+
+		Move(rot_dir);
+
+		if (ate) {
+			AddTail();
+			// Reset the flag
+			ate = false;
+		}
 
 		CalculateEnds();
 
@@ -80,22 +76,6 @@ public class Snake : MonoBehaviour {
 				Debug.DrawLine(starts[i], ends[i], Color.white);
 			}
 		}
-
-		Move();
-
-		var head = transform;
-		foreach(var t in tail) {
-			var pos = head.position;
-			var diff_pos = pos - t.position;
-			var new_r = getAngle(diff_pos.x, diff_pos.y);
-			var rad = getRad(diff_pos.x, diff_pos.y);
-			var new_x = pos.x - Mathf.Cos(rad) * 2.5f;
-			var new_y = pos.y - Mathf.Sin(rad) * 2.5f;
-			t.position = new Vector3(new_x, new_y, 0);
-			t.rotation = Quaternion.Euler(0, 0, -(90f - new_r));
-			head = t;
-		}
-
 	}
 
 	float getAngle(float x, float y) {
@@ -107,19 +87,28 @@ public class Snake : MonoBehaviour {
 		}
 		return degree;
 	}
+
 	float getRad(float x, float y) {
         return Mathf.Atan2(y, x);
 	}
-	void Move() {
-		if(isDied) {
-			return;
-		}
+	void Move(int rot_dir) {
+		var rot = rot_dir * 1.5f;
+		transform.Rotate(0, 0, rot);
+		Vector3 velocity = transform.rotation * Vector3.up;
+		transform.position += velocity * speed * Time.deltaTime;
 
-		if (ate) {
-			AddTail();
-			// Reset the flag
-			ate = false;
-        }
+		var head = transform;
+		foreach (var t in tail) {
+			var pos = head.position;
+			var diff_pos = pos - t.position;
+			var new_r = getAngle(diff_pos.x, diff_pos.y);
+			var rad = getRad(diff_pos.x, diff_pos.y);
+			var new_x = pos.x - Mathf.Cos(rad) * 2.5f;
+			var new_y = pos.y - Mathf.Sin(rad) * 2.5f;
+			t.position = new Vector3(new_x, new_y, 0);
+			t.rotation = Quaternion.Euler(0, 0, -(90f - new_r));
+			head = t;
+		}
 	}
 
 	void AddTail() {
@@ -138,7 +127,6 @@ public class Snake : MonoBehaviour {
 		GameObject g = (GameObject)Instantiate(tailPrefab, pos, pre_rot);
 		tail.Add(g.transform);
 	}
-
 
 	void CalculateEnds() {
 		float step = 180f / (raysCount - 1);

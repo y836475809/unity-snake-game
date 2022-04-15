@@ -398,6 +398,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 414926, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 21263244, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -437,7 +441,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tailPrefab: {fileID: 101184, guid: f8137807577d5f949bb11cb4b88adbae, type: 3}
   rayLength: 4
-  mm: 0
 --- !u!1 &682737737
 GameObject:
   m_ObjectHideFlags: 0
