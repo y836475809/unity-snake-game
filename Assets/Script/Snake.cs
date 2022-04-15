@@ -53,7 +53,6 @@ public class Snake : MonoBehaviour {
 				dir = Vector2.up;
 			}
 			float speed = 10;
-			var b_p = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 			transform.Rotate(0, 0, rot*5);
 			Vector3 velocity = transform.rotation * new Vector3(0, 1, 0);
 			transform.position += velocity* speed * Time.deltaTime;
@@ -71,29 +70,18 @@ public class Snake : MonoBehaviour {
 
 			Move();
 
-            if (tail.Count > 0) {
-				var dd = b_p - tail[0].position;
-				var za = getAngle(dd.x, dd.y);
-				float rad = getRad(dd.x, dd.y);
-				var n0x = b_p.x - Mathf.Cos(rad) * 2.5f;
-				var n0y = b_p.y - Mathf.Sin(rad) * 2.5f;
-				tail[0].position = new Vector3(n0x, n0y, 0);
-				tail[0].rotation = Quaternion.Euler(0, 0, -(90f - za));
-
-                for (int i = 1; i < tail.Count; i++) {
-					var b_p2 = tail[i - 1].position;
-
-					var dd2 = b_p2 - tail[i].position;
-					var za2 = getAngle(dd2.x, dd2.y);
-
-					float rad2 = getRad(dd2.x, dd2.y);
-
-					var n0x2 = b_p2.x - Mathf.Cos(rad2) * 2.5f;
-					var n0y2 = b_p2.y - Mathf.Sin(rad2) * 2.5f;
-					tail[i].position = new Vector3(n0x2, n0y2, 0);
-					tail[i].rotation = Quaternion.Euler(0, 0, -(90f - za2));
-				}
-            }
+			var head = transform;
+			for (int i = 0; i < tail.Count; i++) {
+				var pos = head.position;
+				var diff_pos = pos - tail[i].position;
+				var new_r = getAngle(diff_pos.x, diff_pos.y);
+				var rad = getRad(diff_pos.x, diff_pos.y);
+				var new_x = pos.x - Mathf.Cos(rad) * 2.5f;
+				var new_y = pos.y - Mathf.Sin(rad) * 2.5f;
+				tail[i].position = new Vector3(new_x, new_y, 0);
+				tail[i].rotation = Quaternion.Euler(0, 0, -(90f - new_r));
+				head = tail[i];
+			}
 		} else {
 			if (Input.GetKey(KeyCode.R)){
 				//clear the tail
